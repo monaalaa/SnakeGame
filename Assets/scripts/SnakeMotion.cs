@@ -9,6 +9,16 @@ public class SnakeMotion : MonoBehaviour
     public string dir = "w";
     public List<GameObject> BodyParts = new List<GameObject>();
 
+    public float minDistance = 0.5f;
+
+    public float RotationSpeed = 50;
+
+
+    float dis;
+    Transform currentBodyPart;
+    Transform prevBodyPart;
+
+
     [SerializeField]
     int SnakeSpeed;
 
@@ -19,9 +29,9 @@ public class SnakeMotion : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i <3; i++)
         {
-            appendToSnake();
+            AddSnakPart();
         }
     }
 
@@ -68,15 +78,35 @@ public class SnakeMotion : MonoBehaviour
         ticTime++;
         if (ticTime >= SnakeSpeed)
         {
-            for (int i = 0; i < BodyParts.Count; i++)
+            for (int i = BodyParts.Count-1; i >0; i--)
             {
                 if (i > 0)
-                    BodyParts[i].transform.position = BodyParts[i - 1].transform.position;
+                {
+                    currentBodyPart = BodyParts[i].transform;
+                prevBodyPart = BodyParts[i - 1].transform;
+
+                dis = Vector3.Distance(prevBodyPart.position, currentBodyPart.position);
+                Vector3 newpos = prevBodyPart.position;
+                newpos.y = BodyParts[0].transform.position.y;
+
+                float T = Time.deltaTime * dis / minDistance * 13;
+
+                if (T > 0.5f)
+                    T = 0.5f;
+
+             
+                BodyParts[i].transform.position = Vector3.Slerp(currentBodyPart.position, newpos, T);
+                //BodyParts[i - 1].transform.position;
+                BodyParts[i].transform.rotation = Quaternion.Slerp(currentBodyPart.rotation, prevBodyPart.rotation, T);//BodyParts[i - 1].transform.position;
+
+
+                 }
             }
-            BodyParts[0].transform.position = transform.position;
+            BodyParts[0].transform.position =  transform.position;
             CheckDirection();
             ticTime = 0;
         }
+        transform.position = TempPos;
     }
 
     /// <summary>
@@ -99,17 +129,18 @@ public class SnakeMotion : MonoBehaviour
                 TempPos.x ++;
                 break;
         }
-        transform.position = TempPos;
+      
     }
 
     /// <summary>
     /// add new snake part if it eats an apple
     /// </summary>
-    void appendToSnake()
+   public void AddSnakPart()
     {
-        GameObject Part = Instantiate(Resources.Load<GameObject>("Part")) as GameObject;
+        GameObject Part = Instantiate(Resources.Load<GameObject>("Part"),BodyParts[BodyParts.Count-1].transform.position, BodyParts[BodyParts.Count - 1].transform.rotation) as GameObject;
         if (!BodyParts.Contains(Part))
         {
+          //  Part.transform.parent = transform;
             Debug.Log("here");
             BodyParts.Add(Part);
         }

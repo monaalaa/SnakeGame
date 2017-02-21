@@ -45,7 +45,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\scripts\SnakeMotion.cs" />
+     <Compile Include="Assets\Scripts\FruitsController.cs" />
+     <Compile Include="Assets\Scripts\SnakeController.cs" />
+     <Compile Include="Assets\Scripts\SnakeMotion.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
