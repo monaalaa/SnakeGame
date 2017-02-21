@@ -4,6 +4,7 @@ using System.Collections;
 public class FruitsController : MonoBehaviour
 {
 
+    float boardSize= 28;
     static FruitsController _instance;
 
     public static FruitsController Instance
@@ -34,6 +35,9 @@ public class FruitsController : MonoBehaviour
 
     public void GenerateApple()
     {
-        Debug.Log("generate another apple");
+        float xpos = Random.Range(-boardSize, boardSize);
+        float zpos = Random.Range(-boardSize, boardSize);
+        Vector3 pos = new Vector3(xpos, 0, zpos);
+        GameObject apple = Instantiate(Resources.Load<GameObject>("Apple"), pos, Quaternion.identity) as GameObject;
     }
 }

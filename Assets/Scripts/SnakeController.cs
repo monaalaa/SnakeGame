@@ -1,8 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum SnakeStatus
+{
+    SnakeMoving,
+    Snakedead
+}
 public class SnakeController : MonoBehaviour {
 
+    public SnakeStatus SnakeState = SnakeStatus.SnakeMoving;
 	// Use this for initialization
 	void Start () {
 	
@@ -17,6 +23,7 @@ public class SnakeController : MonoBehaviour {
     {
         if (collider.gameObject.tag == "obstacles")
         {
+            SnakeState = SnakeStatus.Snakedead;
             Debug.Log("Game Over");
         }
 

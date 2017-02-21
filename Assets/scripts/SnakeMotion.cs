@@ -29,7 +29,7 @@ public class SnakeMotion : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i <3; i++)
+        for (int i = 0; i < 3; i++)
         {
             AddSnakPart();
         }
@@ -38,8 +38,11 @@ public class SnakeMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Inputs();
-        SnakeMovment();
+        if (GetComponent<SnakeController>().SnakeState == SnakeStatus.SnakeMoving)
+        {
+            Inputs();
+            SnakeMovment();
+        }
     }
 
     /// <summary>
@@ -140,8 +143,8 @@ public class SnakeMotion : MonoBehaviour
         GameObject Part = Instantiate(Resources.Load<GameObject>("Part"),BodyParts[BodyParts.Count-1].transform.position, BodyParts[BodyParts.Count - 1].transform.rotation) as GameObject;
         if (!BodyParts.Contains(Part))
         {
-          //  Part.transform.parent = transform;
-            Debug.Log("here");
+            if (BodyParts.Count >3)
+                Part.tag = "obstacles";
             BodyParts.Add(Part);
         }
     }
