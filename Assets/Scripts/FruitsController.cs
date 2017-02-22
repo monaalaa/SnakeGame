@@ -40,4 +40,10 @@ public class FruitsController : MonoBehaviour
         Vector3 pos = new Vector3(xpos, 0, zpos);
         GameObject apple = Instantiate(Resources.Load<GameObject>("Apple"), pos, Quaternion.identity) as GameObject;
     }
+
+    public void PlayAppleSound()
+    {
+        AudioSource aS = GetComponent<AudioSource>();
+        aS.Play();
+    }
 }

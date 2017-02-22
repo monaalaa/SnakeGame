@@ -2,6 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum MotionController
+{
+    Swipe,
+    Click
+}
 public class SnakeMotion : MonoBehaviour
 {
 
@@ -13,7 +18,7 @@ public class SnakeMotion : MonoBehaviour
 
     public float RotationSpeed = 50;
 
-
+    internal static MotionController Motioncontrol = MotionController.Swipe;
     float dis;
     Transform currentBodyPart;
     Transform prevBodyPart;
@@ -37,7 +42,8 @@ public class SnakeMotion : MonoBehaviour
 
     void Start()
     {
-        for (int i = 0; i < 3; i++)
+        SnakeController.SnakeState = SnakeStatus.SnakeMoving;
+        for (int i = 0; i < 2; i++)
         {
             AddSnakPart();
         }
@@ -46,9 +52,10 @@ public class SnakeMotion : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GetComponent<SnakeController>().SnakeState == SnakeStatus.SnakeMoving)
+        if (SnakeController.SnakeState == SnakeStatus.SnakeMoving)
         {
-            Swipe();
+             Swipe();
+            //SwipeTouch();
             Inputs();
             SnakeMovment();
         }
