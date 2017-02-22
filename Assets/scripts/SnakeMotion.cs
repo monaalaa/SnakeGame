@@ -62,7 +62,6 @@ public class SnakeMotion : MonoBehaviour
                 UIManager.Instance.ArrowPanle.SetActive(false);
                 Swipe();
             }
-            //SwipeTouch();
             else if (Motioncontrol == MotionController.Click)
             {
                 ClickToMove();
@@ -71,14 +70,14 @@ public class SnakeMotion : MonoBehaviour
 
             else if (Motioncontrol == MotionController.Arrows)
                 UIManager.Instance.ArrowPanle.SetActive(true);
-            //ClickToMoveTouch();
+           
             Inputs();
             SnakeMovment();
         }
     }
 
     /// <summary>
-    /// function to get which direction the snake shourd move on
+    /// function to get which direction the snake should move on
     /// </summary>
     void Inputs()
     {
@@ -188,60 +187,61 @@ public class SnakeMotion : MonoBehaviour
         //dir= new random and call it in start
     }
 
+    ///// <summary>
+    ///// Controlmoving by swipe
+    ///// </summary>
+    //public void SwipeTouch()
+    //{
+    //    if (Input.touches.Length > 0)
+    //    {
+    //        Touch t = Input.GetTouch(0);
+    //        if (t.phase == TouchPhase.Began)
+    //        {
+    //            //save began touch 2d point
+    //            firstPressPos = new Vector2(t.position.x, t.position.y);
+    //        }
+    //        if (t.phase == TouchPhase.Ended)
+    //        {
+    //            //save ended touch 2d point
+    //            secondPressPos = new Vector2(t.position.x, t.position.y);
+
+    //            //create vector from the two points
+    //            currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
+
+    //            //normalize the 2d vector
+    //            currentSwipe.Normalize();
+
+    //            //swipe upwards
+    //            if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+    //            {
+    //                Debug.Log("up swipe");
+    //                dir = "w";
+    //            }
+    //            //swipe down
+    //            if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
+    //            {
+    //                Debug.Log("down swipe");
+    //                dir = "s";
+    //            }
+    //            //swipe left
+    //            if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+    //            {
+    //                Debug.Log("left swipe");
+    //                dir = "a";
+    //            }
+    //            //swipe right
+    //            if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
+    //            {
+    //                Debug.Log("right swipe");
+    //                dir = "d";
+
+    //            }
+    //        }
+    //    }
+    //}
+  
     /// <summary>
-    /// Controlmoving by swipe
-    /// </summary>
-    public void SwipeTouch()
-    {
-        if (Input.touches.Length > 0)
-        {
-            Touch t = Input.GetTouch(0);
-            if (t.phase == TouchPhase.Began)
-            {
-                //save began touch 2d point
-                firstPressPos = new Vector2(t.position.x, t.position.y);
-            }
-            if (t.phase == TouchPhase.Ended)
-            {
-                //save ended touch 2d point
-                secondPressPos = new Vector2(t.position.x, t.position.y);
-
-                //create vector from the two points
-                currentSwipe = new Vector3(secondPressPos.x - firstPressPos.x, secondPressPos.y - firstPressPos.y);
-
-                //normalize the 2d vector
-                currentSwipe.Normalize();
-
-                //swipe upwards
-                if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                {
-                    Debug.Log("up swipe");
-                    dir = "w";
-                }
-                //swipe down
-                if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
-                {
-                    Debug.Log("down swipe");
-                    dir = "s";
-                }
-                //swipe left
-                if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
-                {
-                    Debug.Log("left swipe");
-                    dir = "a";
-                }
-                //swipe right
-                if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
-                {
-                    Debug.Log("right swipe");
-                    dir = "d";
-
-                }
-            }
-        }
-    }
-    /// <summary>
-    /// Swipe by mous "for testing in unity editor"
+    /// Swipe function
     /// </summary>
     public void Swipe()
     {
@@ -286,7 +286,7 @@ public class SnakeMotion : MonoBehaviour
 
 
     /// <summary>
-    /// move Snake by click on spacific positoin on screen "for testing in unity editor"
+    /// move Snake by click on specific position  on screen 
     /// </summary>
     void ClickToMove()
     {
@@ -325,47 +325,47 @@ public class SnakeMotion : MonoBehaviour
         }
     }
   
+    ///// <summary>
+    ///// move Snake by touching on spacific positoin on screen
+    ///// </summary>
+    //void ClickToMoveTouch()
+    //{
+
+    //    if (Input.touches.Length > 0)
+    //    {
+    //        Touch t = Input.GetTouch(0);
+    //        Vector3 pos = t.position;
+    //        Ray ray = GameObject.FindObjectOfType<Camera>().ScreenPointToRay(pos);
+    //        Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+    //        float distance;
+    //        xy.Raycast(ray, out distance);
+    //        pos = ray.GetPoint(distance);
+
+    //        //Left
+    //        if (pos.x < 0.0f && dir != "a" && dir != "d")
+    //        {
+    //            dir = "a";
+    //        }
+    //        //Right
+    //        else if (pos.x > 0.0f && dir != "d" && dir != "a")
+    //        {
+    //            dir = "d";
+    //        }
+    //        //Up
+    //        else if (pos.y > 0.0f && dir != "s" && dir != "w")
+    //        {
+    //            dir = "w";
+    //        }
+    //        //Down
+    //        else if (pos.y < 0.0f && dir != "s" && dir != "w")
+    //        {
+    //            dir = "s";
+    //        }
+    //    }
+    //}
+
     /// <summary>
-    /// move Snake by touching on spacific positoin on screen
-    /// </summary>
-    void ClickToMoveTouch()
-    {
-
-        if (Input.touches.Length > 0)
-        {
-            Touch t = Input.GetTouch(0);
-            Vector3 pos = t.position;
-            Ray ray = GameObject.FindObjectOfType<Camera>().ScreenPointToRay(pos);
-            Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
-            float distance;
-            xy.Raycast(ray, out distance);
-            pos = ray.GetPoint(distance);
-
-            //Left
-            if (pos.x < 0.0f && dir != "a" && dir != "d")
-            {
-                dir = "a";
-            }
-            //Right
-            else if (pos.x > 0.0f && dir != "d" && dir != "a")
-            {
-                dir = "d";
-            }
-            //Up
-            else if (pos.y > 0.0f && dir != "s" && dir != "w")
-            {
-                dir = "w";
-            }
-            //Down
-            else if (pos.y < 0.0f && dir != "s" && dir != "w")
-            {
-                dir = "s";
-            }
-        }
-    }
-
-    /// <summary>
-    /// make sname move in random direction at the beginning
+    /// make snake move in random direction at the beginning
     /// </summary>
     void RandomDirection()
     {

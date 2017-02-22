@@ -33,6 +33,9 @@ public class FruitsController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// generate apple in random positions
+    /// </summary>
     public void GenerateApple()
     {
         float xpos = Random.Range(-boardSize, boardSize);
@@ -41,6 +44,9 @@ public class FruitsController : MonoBehaviour
         GameObject apple = Instantiate(Resources.Load<GameObject>("Apple"), pos, Quaternion.identity) as GameObject;
     }
 
+    /// <summary>
+    /// play crunch apple sound when snake eats one
+    /// </summary>
     public void PlayAppleSound()
     {
         AudioSource aS = GetComponent<AudioSource>();

@@ -54,6 +54,7 @@ public class SnakeController : MonoBehaviour {
             savePlayerdata();
             //set the right high score
             UIManager.Instance.SetHighScore(GetPlayerData());
+            UIManager.Instance.ArrowPanle.SetActive(false);
             UIManager.Instance.OpenPanel(0);
         }
         #endregion

@@ -9,13 +9,18 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     List<GameObject> panelList;
 
+   
     [SerializeField]
     Text HighScore;
 
     [SerializeField]
     Text Scoretext;
 
+    [SerializeField]
+    GameObject PausePanle;
     public GameObject ArrowPanle;
+   
+
     static UIManager _instance;
 
     public static UIManager Instance
@@ -112,8 +117,24 @@ public class UIManager : MonoBehaviour
         Scoretext.text = Score.ToString();
     }
 
+    /// <summary>
+    /// set direction using arrows
+    /// </summary>
+    /// <param name="direction"></param>
     public void SetDirection(string direction)
     {
         GameObject.FindObjectOfType<SnakeMotion>().dir = direction;
+    }
+
+    public void OnClickPause()
+    {
+        PausePanle.SetActive(true);
+        SnakeController.SnakeState = SnakeStatus.Snakedead;
+    }
+
+    public void OnClickResume()
+    {
+        PausePanle.SetActive(false);
+        SnakeController.SnakeState = SnakeStatus.SnakeMoving;
     }
 }
