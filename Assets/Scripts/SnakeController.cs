@@ -26,7 +26,6 @@ public class SnakeController : MonoBehaviour {
         if (collider.gameObject.tag == "obstacles")
         {
             SnakeState = SnakeStatus.Snakedead;
-            Debug.Log("Game Over");
             UIManager.Instance.OpenPanel(0);
         }
 

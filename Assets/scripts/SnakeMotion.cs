@@ -11,7 +11,7 @@ public class SnakeMotion : MonoBehaviour
 {
 
     #region Fields
-    public string dir;//= "w";
+    public string dir;
     public List<GameObject> BodyParts = new List<GameObject>();
 
     public float minDistance = 0.3f;
@@ -42,6 +42,7 @@ public class SnakeMotion : MonoBehaviour
 
     void Start()
     {
+        RandomDirection();
         SnakeController.SnakeState = SnakeStatus.SnakeMoving;
         for (int i = 0; i < 2; i++)
         {
@@ -173,7 +174,9 @@ public class SnakeMotion : MonoBehaviour
         //dir= new random and call it in start
     }
 
-
+    /// <summary>
+    /// Controlmoving by swipe
+    /// </summary>
     public void SwipeTouch()
     {
         if (Input.touches.Length > 0)
@@ -266,6 +269,28 @@ public class SnakeMotion : MonoBehaviour
                 Debug.Log("right swipe");
                 dir = "d";
             }
+        }
+    }
+
+
+    void RandomDirection()
+    {
+        int random = Random.Range(0, 3);
+        switch (random)
+        {
+            case 0:
+                dir = "w";
+                break;
+
+            case 1:
+                dir = "s";
+                break;
+            case 2:
+                dir = "d";
+                break;
+            case 3:
+                dir = "a";
+                break;
         }
     }
 }
