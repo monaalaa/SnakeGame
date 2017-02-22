@@ -5,7 +5,8 @@ using System.Collections.Generic;
 public enum MotionController
 {
     Swipe,
-    Click
+    Click,
+    Arrows
 }
 public class SnakeMotion : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class SnakeMotion : MonoBehaviour
     public string dir;
     public List<GameObject> BodyParts = new List<GameObject>();
 
-    public float minDistance = 0.3f;
+    public float minDistance = 0.2f;
 
     public float RotationSpeed = 50;
 
@@ -44,6 +45,7 @@ public class SnakeMotion : MonoBehaviour
     {
         RandomDirection();
         SnakeController.SnakeState = SnakeStatus.SnakeMoving;
+        Debug.Log(Motioncontrol+ " ******** Motioncontrol");
         for (int i = 0; i < 2; i++)
         {
             AddSnakPart();
@@ -55,8 +57,12 @@ public class SnakeMotion : MonoBehaviour
     {
         if (SnakeController.SnakeState == SnakeStatus.SnakeMoving)
         {
-             Swipe();
+            if(Motioncontrol==MotionController.Swipe)
+              Swipe();
             //SwipeTouch();
+            else if (Motioncontrol == MotionController.Click)
+             ClickToMove();
+            //ClickToMoveTouch();
             Inputs();
             SnakeMovment();
         }
@@ -109,7 +115,7 @@ public class SnakeMotion : MonoBehaviour
                 Vector3 newpos = prevBodyPart.position;
                 newpos.y = BodyParts[0].transform.position.y;
 
-                float T = Time.deltaTime * dis / minDistance * 13;
+                float T = Time.deltaTime * dis / minDistance * 40;
 
                 if (T > 0.5f)
                     T = 0.5f;
@@ -226,7 +232,9 @@ public class SnakeMotion : MonoBehaviour
             }
         }
     }
-
+    /// <summary>
+    /// Swipe by mous "for testing in unity editor"
+    /// </summary>
     public void Swipe()
     {
         if (Input.GetMouseButtonDown(0))
@@ -273,6 +281,90 @@ public class SnakeMotion : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// move Snake by click on spacific positoin on screen "for testing in unity editor"
+    /// </summary>
+    void ClickToMove()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 pos = Input.mousePosition;
+            Ray ray = GameObject.FindObjectOfType<Camera>().ScreenPointToRay(pos);
+            Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+            float distance;
+            xy.Raycast(ray, out distance);
+            pos = ray.GetPoint(distance);
+
+            if (pos.x < 0.0f && dir!="a" && dir != "d")
+            {
+                Debug.Log("Left");
+                dir = "a";
+            }
+           else if (pos.x > 0.0f && dir != "d" && dir != "a")
+            {
+                dir = "d";
+                Debug.Log("Right");
+            }
+
+           else if (pos.y > 0.0f && dir != "s" && dir != "w")//10
+            {
+                Debug.Log("Up");
+                dir = "w";
+            }
+
+            else if (pos.y < 0.0f && dir != "s" && dir != "w")//-60
+            {
+                Debug.Log("Down");
+                dir = "s";
+            }
+        }
+    }
+  
+    /// <summary>
+    /// move Snake by touching on spacific positoin on screen
+    /// </summary>
+    void ClickToMoveTouch()
+    {
+
+        if (Input.touches.Length > 0)
+        {
+            Touch t = Input.GetTouch(0);
+            Vector3 pos = t.position;
+            Ray ray = GameObject.FindObjectOfType<Camera>().ScreenPointToRay(pos);
+            Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
+            float distance;
+            xy.Raycast(ray, out distance);
+            pos = ray.GetPoint(distance);
+
+            if (pos.x < 0.0f && dir != "a" && dir != "d")
+            {
+                Debug.Log("Left");
+                dir = "a";
+            }
+            else if (pos.x > 0.0f && dir != "d" && dir != "a")
+            {
+                dir = "d";
+                Debug.Log("Right");
+            }
+
+            else if (pos.y > 0.0f && dir != "s" && dir != "w")//10
+            {
+                Debug.Log("Up");
+                dir = "w";
+            }
+
+            else if (pos.y < 0.0f && dir != "s" && dir != "w")//-60
+            {
+                Debug.Log("Down");
+                dir = "s";
+            }
+        }
+    }
+
+    /// <summary>
+    /// make sname move in random direction at the beginning
+    /// </summary>
     void RandomDirection()
     {
         int random = Random.Range(0, 3);

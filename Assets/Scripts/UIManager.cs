@@ -48,4 +48,17 @@ public class UIManager : MonoBehaviour {
     {
         SceneManager.LoadScene(index);
     }
+
+
+    public void ClickSwipe()
+    {
+        SnakeMotion.Motioncontrol = MotionController.Swipe;
+        LoadScene(1);
+    }
+
+    public void Click_ClickController()
+    {
+        SnakeMotion.Motioncontrol = MotionController.Click;
+        LoadScene(1);
+    }
 }

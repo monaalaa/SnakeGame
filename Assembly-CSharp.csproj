@@ -50,7 +50,6 @@
      <Compile Include="Assets\Scripts\SnakeMotion.cs" />
      <Compile Include="Assets\Scripts\SoundSystem.cs" />
      <Compile Include="Assets\Scripts\UIManager.cs" />
-     <Compile Include="Assets\Scripts\spawnOobjects.cs" />
      <None Include="Assets\Standard Assets\Prototyping\Shaders\WorldCoordDiffuse.shader" />
      <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
  <Reference Include="UnityEngine.UI">

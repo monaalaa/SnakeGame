@@ -22,9 +22,12 @@ public class SoundSystem : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        _instance = this;
-        DontDestroyOnLoad(this.gameObject);
-        GetComponent<AudioSource>().Play();
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(this.gameObject);
+            GetComponent<AudioSource>().Play();
+        }
     }
 	
 	// Update is called once per frame
