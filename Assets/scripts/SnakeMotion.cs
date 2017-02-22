@@ -45,7 +45,6 @@ public class SnakeMotion : MonoBehaviour
     {
         RandomDirection();
         SnakeController.SnakeState = SnakeStatus.SnakeMoving;
-        Debug.Log(Motioncontrol+ " ******** Motioncontrol");
         for (int i = 0; i < 2; i++)
         {
             AddSnakPart();
@@ -57,11 +56,21 @@ public class SnakeMotion : MonoBehaviour
     {
         if (SnakeController.SnakeState == SnakeStatus.SnakeMoving)
         {
-            if(Motioncontrol==MotionController.Swipe)
-              Swipe();
+
+            if (Motioncontrol == MotionController.Swipe)
+            {
+                UIManager.Instance.ArrowPanle.SetActive(false);
+                Swipe();
+            }
             //SwipeTouch();
             else if (Motioncontrol == MotionController.Click)
-             ClickToMove();
+            {
+                ClickToMove();
+                UIManager.Instance.ArrowPanle.SetActive(false);
+            }
+
+            else if (Motioncontrol == MotionController.Arrows)
+                UIManager.Instance.ArrowPanle.SetActive(true);
             //ClickToMoveTouch();
             Inputs();
             SnakeMovment();
@@ -115,15 +124,14 @@ public class SnakeMotion : MonoBehaviour
                 Vector3 newpos = prevBodyPart.position;
                 newpos.y = BodyParts[0].transform.position.y;
 
-                float T = Time.deltaTime * dis / minDistance * 40;
+                float time = Time.deltaTime * dis / minDistance * 40;
 
-                if (T > 0.5f)
-                    T = 0.5f;
+                if (time > 0.5f)
+                    time = 0.5f;
 
              
-                BodyParts[i].transform.position = Vector3.Slerp(currentBodyPart.position, newpos, T);
-                //BodyParts[i - 1].transform.position;
-                BodyParts[i].transform.rotation = Quaternion.Slerp(currentBodyPart.rotation, prevBodyPart.rotation, T);//BodyParts[i - 1].transform.position;
+                BodyParts[i].transform.position = Vector3.Slerp(currentBodyPart.position, newpos, time);
+                BodyParts[i].transform.rotation = Quaternion.Slerp(currentBodyPart.rotation, prevBodyPart.rotation, time);
 
 
                  }
@@ -239,12 +247,12 @@ public class SnakeMotion : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //save began touch 2d point
+            //get start 2d touch point
             firstPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         }
         if (Input.GetMouseButtonUp(0))
         {
-            //save ended touch 2d point
+            //get ed 2d touch point
             secondPressPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 
             //create vector from the two points
@@ -253,28 +261,24 @@ public class SnakeMotion : MonoBehaviour
             //normalize the 2d vector
             currentSwipe.Normalize();
 
-            //swipe upwards
+            //Up
             if (currentSwipe.y > 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
             {
-                Debug.Log("up swipe");
                 dir = "w";
             }
-            //swipe down
+            // down
             if (currentSwipe.y < 0 && currentSwipe.x > -0.5f && currentSwipe.x < 0.5f)
             {
-                Debug.Log("down swipe");
                 dir = "s";
             }
-            //swipe left
+            // left
             if (currentSwipe.x < 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
             {
-                Debug.Log("left swipe");
                 dir = "a";
             }
-            //swipe right
+            // right
             if (currentSwipe.x > 0 && currentSwipe.y > -0.5f && currentSwipe.y < 0.5f)
-            {
-                Debug.Log("right swipe");
+            { 
                 dir = "d";
             }
         }
@@ -289,33 +293,33 @@ public class SnakeMotion : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
+            //get mouse position
             Vector3 pos = Input.mousePosition;
             Ray ray = GameObject.FindObjectOfType<Camera>().ScreenPointToRay(pos);
             Plane xy = new Plane(Vector3.forward, new Vector3(0, 0, 0));
             float distance;
             xy.Raycast(ray, out distance);
-            pos = ray.GetPoint(distance);
 
-            if (pos.x < 0.0f && dir!="a" && dir != "d")
+            //final world position
+            pos = ray.GetPoint(distance);
+            //Left
+            if (pos.x < 0.0f && dir != "a" && dir != "d")
             {
-                Debug.Log("Left");
                 dir = "a";
             }
-           else if (pos.x > 0.0f && dir != "d" && dir != "a")
+            //Right
+            else if (pos.x > 0.0f && dir != "d" && dir != "a")
             {
                 dir = "d";
-                Debug.Log("Right");
             }
-
-           else if (pos.y > 0.0f && dir != "s" && dir != "w")//10
+            //Up
+            else if (pos.y > 0.0f && dir != "s" && dir != "w")
             {
-                Debug.Log("Up");
                 dir = "w";
             }
-
-            else if (pos.y < 0.0f && dir != "s" && dir != "w")//-60
+            //Down
+            else if (pos.y < 0.0f && dir != "s" && dir != "w")
             {
-                Debug.Log("Down");
                 dir = "s";
             }
         }
@@ -337,26 +341,24 @@ public class SnakeMotion : MonoBehaviour
             xy.Raycast(ray, out distance);
             pos = ray.GetPoint(distance);
 
+            //Left
             if (pos.x < 0.0f && dir != "a" && dir != "d")
             {
-                Debug.Log("Left");
                 dir = "a";
             }
+            //Right
             else if (pos.x > 0.0f && dir != "d" && dir != "a")
             {
                 dir = "d";
-                Debug.Log("Right");
             }
-
-            else if (pos.y > 0.0f && dir != "s" && dir != "w")//10
+            //Up
+            else if (pos.y > 0.0f && dir != "s" && dir != "w")
             {
-                Debug.Log("Up");
                 dir = "w";
             }
-
-            else if (pos.y < 0.0f && dir != "s" && dir != "w")//-60
+            //Down
+            else if (pos.y < 0.0f && dir != "s" && dir != "w")
             {
-                Debug.Log("Down");
                 dir = "s";
             }
         }
